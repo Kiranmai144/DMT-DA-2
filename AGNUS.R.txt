@@ -1,0 +1,15 @@
+# Install and load necessary packages
+install.packages("cluster")
+library(cluster)
+
+# Read the dataset
+data <- read.csv("C:/Users/Kiranmai Mulupuru/OneDrive/Desktop/data.csv")
+
+# Perform agnes clustering
+agnes_result <- agnes(data, method = "complete")
+
+# Print the clustering result
+print(agnes_result)
+
+# Plot the dendrogram
+plot(agnes_result, which.plot = 2, main = "Dendrogram of Agnes Clustering")

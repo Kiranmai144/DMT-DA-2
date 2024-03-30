@@ -1,0 +1,9 @@
+Call:
+hclust(d = dist_matrix, method = "ward.D2")
+
+Cluster method   : ward.D2 
+Distance         : Euclidean 
+Number of objects: 569 
+
+> dend
+'dendrogram' with 2 branches and 569 members total, at height 18371.1

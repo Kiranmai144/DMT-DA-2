@@ -1,0 +1,33 @@
+# Load necessary packages
+library(factoextra)
+library(cluster)
+
+# Load your dataset (replace with your actual path)
+data <- read.csv("C:\Users\Kiranmai Mulupuru\OneDrive\Desktop\data.csv")
+
+# Remove any rows with missing values
+data <- na.omit(data)
+
+# Select only numeric columns for clustering (exclude ID and diagnosis)
+clustering_data <- data[, -c(1, 2)]
+
+# Check data types
+str(clustering_data)
+
+# Scale each variable
+data_scaled <- scale(clustering_data)
+data_scaled
+# Apply k-means clustering (assuming 3 clusters)
+set.seed(123)
+kmeans_result <- kmeans(data_scaled, centers = 3)
+kmeans_result
+# Add cluster results to the original data
+data$cluster <- as.factor(kmeans_result$cluster)
+
+# Scatter plot using ggplot2
+library(ggplot2)
+
+ggplot(data, aes(x = radius_mean, y = texture_mean, color = cluster)) +
+  geom_point() +
+  labs(title = "K-Means Clustering", x = "Radius Mean", y = "Texture Mean") +
+  scale_color_manual(values = c("red", "green", "blue"))

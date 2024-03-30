@@ -1,0 +1,37 @@
+# Load the required libraries
+library(cba)  # For hierarchical clustering
+library(dendextend)  # For dendrograms
+
+# Read your dataset (assuming it's in CSV format)
+data_path <- "C:\Users\Kiranmai Mulupuru\OneDrive\Desktop\data.csv"
+my_data <- read.csv(data_path)
+
+# Select relevant columns (excluding 'id' and 'diagnosis')
+selected_columns <- my_data[, c("radius_mean", "texture_mean", "perimeter_mean", "area_mean",
+                                "smoothness_mean", "compactness_mean", "concavity_mean",
+                                "concave_points_mean", "symmetry_mean", "fractal_dimension_mean",
+                                "radius_se", "texture_se", "perimeter_se", "area_se",
+                                "smoothness_se", "compactness_se", "concavity_se",
+                                "concave_points_se", "symmetry_se", "fractal_dimension_se",
+                                "radius_worst", "texture_worst", "perimeter_worst", "area_worst",
+                                "smoothness_worst", "compactness_worst", "concavity_worst",
+                                "concave_points_worst", "symmetry_worst", "fractal_dimension_worst")]
+
+# Calculate the distance matrix
+dist_matrix <- dist(selected_columns)
+
+# Perform hierarchical clustering
+hc_result <- hclust(dist_matrix, method = "ward.D2")
+hc_result
+# Convert the hierarchical clustering output to a dendrogram
+dend <- as.dendrogram(hc_result)
+dend
+# Plot the dendrogram
+plot(dend, main = "Hierarchical Clustering Dendrogram",
+     xlab = "Samples", ylab = "Distance")
+
+# Save the plot (optional)
+# png("hierarchical_clustering_dendrogram.png")
+# plot(dend, main = "Hierarchical Clustering Dendrogram",
+#      xlab = "Samples", ylab = "Distance")
+# dev.off()

@@ -1,0 +1,39 @@
+# Load the required library
+
+library(cba)
+
+# Read your dataset (assuming it's in CSV format)
+data_path <- "C:\Users\Kiranmai Mulupuru\OneDrive\Desktop\data.csv"
+my_data <- read.csv(data_path)
+
+# Select relevant columns (excluding 'id' and 'diagnosis')
+selected_columns <- my_data[, c("radius_mean", "texture_mean", "perimeter_mean", "area_mean",
+                                "smoothness_mean", "compactness_mean", "concavity_mean",
+                                "concave_points_mean", "symmetry_mean", "fractal_dimension_mean",
+                                "radius_se", "texture_se", "perimeter_se", "area_se",
+                                "smoothness_se", "compactness_se", "concavity_se",
+                                "concave_points_se", "symmetry_se", "fractal_dimension_se",
+                                "radius_worst", "texture_worst", "perimeter_worst", "area_worst",
+                                "smoothness_worst", "compactness_worst", "concavity_worst",
+                                "concave_points_worst", "symmetry_worst", "fractal_dimension_worst")]
+
+# Perform ROCK clustering
+rock_result <- rockCluster(selected_columns, n = 2, theta = 0.73, debug = TRUE)
+rock_result
+# Get cluster assignments
+cluster_assignments <- fitted(rock_result)$cl
+cluster_assignments
+# Add cluster assignments back to the original dataset
+my_data$Cluster <- cluster_assignments
+
+# Visualize the results (you can customize this plot as needed)
+plot(selected_columns[, c("radius_mean", "texture_mean")], col = cluster_assignments,
+     main = "ROCK Clustering Results", xlab = "Radius Mean", ylab = "Texture Mean")
+
+# Save the plot (optional)
+# png("rock_clustering_plot.png")
+# plot(...)
+# dev.off()
+
+# Print the cluster assignments
+print(table(my_data$diagnosis, cluster_assignments))

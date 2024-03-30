@@ -1,0 +1,28 @@
+# Load required library
+library(cluster)
+
+# Read the dataset
+data <- read.csv("C:\Users\Kiranmai Mulupuru\OneDrive\Desktop\data.csv")
+
+# Remove non-numeric columns (like id and diagnosis)
+data_numeric <- data[, !(names(data) %in% c("id", "diagnosis"))]
+
+# Scale the data
+scaled_data <- scale(data_numeric)
+
+# Perform CLARA clustering
+clara_result <- clara(scaled_data, k = 2, samples = 5)  # You can change k and samples as desired
+
+# Assign cluster labels to original data
+data$cluster <- clara_result$clustering
+data$cluster
+# Visualize the clusters (2D plot)
+plot(scaled_data, col = clara_result$clustering)
+points(clara_result$medoids, col = 1:2, pch = 8, cex = 2)  # Plot medoids
+
+# Print the medoids
+print("Medoids:")
+print(data[clara_result$medoids, ])
+
+# Plot silhouette plot
+plot(silhouette(clara_result))
